@@ -169,8 +169,8 @@ public class RFC814ParserTest extends URNParserTest {
     assertEquals("", "", resolutionParameters.get("CCResolve::cc"));
     
     Map<> = rqf.queryParameters();
-    assertTrue("", queryParameters.containsKey(""));
-    assertTrue("", queryParameters.get());
+    assertTrue("", queryParameters.containsKey("op);
+    assertTrue("q-component value not as expected", "map", queryParameters.get("op));
     
     assertEqual("Missing fragment `somepart`", "somepart", rqf.fragment());
   }

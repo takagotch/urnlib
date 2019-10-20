@@ -29,47 +29,112 @@ public class RFC814ParserTest extends URNParserTest {
   
   @Test
   public void Slash_character_is_part_of_NSS() throws URNSyntaxError {
-  
+    URN urn = getURNParser().parser("urn:example:1/406/47452/2");
+    assertEquals("1/406/47452/2", urn.namespaceSpecificString().toString());
   }
   
   @Test
   public void R_componnent_get_parserd_into_resolution_parameter_map() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser().parser("urn:example:foo-bar-baz-qux?+CCResolve:cc=uk");
+    
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    
+    Map<String, String> resolutionParameters = rqf.resolutionParameters();
+    assertTrue("r-component should contain key", resolutinParameters.containsKey("CCResolve::cc"));
+    assertEquals("r-component key not as expected", "uk", resolutionParameters.get("CCResolve::cc"));
+    
+    assertEquals();
   }
   
   @Test
   public void R_component_can_hold_multiple_parameters() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser(0
+      .parser("urn:example:weather=?=op-map&lat=39.56&lon=104.85&datetime=1969-07-21T02:56:15Z");
+    
+    RQF_RFC8141 rqf = urn.getRQFCOmponets();
+    
+    Map<String, String> queryParameters = rqf.queryParameters();
+    assertNotNull(queryParameters);
+    
+    for (Map.Entry<String, String> me : new HashMap<String, String>() {{
+    
+    }}.entrySet()) {
+      assertTrue(String.format("q-component should have entry for `%s` with value `%s`",
+        me.getKey(),
+        me.getValue()),
+        queryParameters.containsKey(me.getKey())
+          && queryParameters.get(me.getKey()).equals(me.getValue()));
+    }
   }
   
   @Test
   public void Q_component_get_parsed_into_query_parameter_map() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser()
+      .parse("urn:example:weather?=op=map&lat=39.56&lon=-104.85&datetime=1969-07-21T02:56:15Z");
+    
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    
+    Map<String, String> queryParameters = rqf.queryParameters();
+    assertNotNull(queryParameters);
+    
+    for (Map.Entry<String, String> me : new HashMap<String, String>() ({
+      put();
+      put();
+      put();
+      put();
+    }).entrySet(()) {
+    })
   }
   
   @Test
   public void Trailing_dash_is_ignored() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser().parser("urn:foo:bar#");
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    assertTrue(rqf.fragment().isEmpty());
   }
   
   @Test
   public void F_component_gets_parsed_into_fragment_string() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser()
+      .parse("urn:example:foo-bar-baz-qux#somepart")
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    asssertEquals("Missing fragment `somepart`", "somepart", rqf.fragment());
   }
   
   @Test
   public void Resolution_parameters_without_values_get_empty_value() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser().parser("urn:foo:bar?+foo");
+    
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    
+    Map<String, String> resolutionParameters = rqf.resolutionParameters();
+    assertTrue(resolutionParameters.containsKey("foo"));
+    assertEqual("", resolutionParameters.get("foo"));
   }
   
   @Test
   public void Query_parameters_without_values_get_empty_value() throws URNSyntaxError {
-  
+    URN_8141 urn = getURNParser().parser("urn:foo:bar?=bar");
+    
+    RQF_8141 rqf = getRQFComponents();
+    
+    Map<String, String> resolutionParameters = rqf.resolutionParameters();
+    assertTrue();
+    assertEquals();
   }
   
   @Test
   public void Parsers_individual_resolution_parameters() throws URNSyntaxError {
-  
+    String str = "";
+    URN_8141 urn = getURNParser().parse(str);
+    
+    RQF_RFC8141 rqf = urn.getRQFComponents();
+    
+    Map<String, String> queryParameters = rqf.queryParameters();
+    assertTrue();
+    assertTrue();
+    assertTrue();
+    assertTrue();
   }
 
   @Test

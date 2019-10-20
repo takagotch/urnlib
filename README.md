@@ -42,13 +42,11 @@ public class RFC814ParserTest extends URNParserTest {
     Map<String, String> resolutionParameters = rqf.resolutionParameters();
     assertTrue("r-component should contain key", resolutinParameters.containsKey("CCResolve::cc"));
     assertEquals("r-component key not as expected", "uk", resolutionParameters.get("CCResolve::cc"));
-    
-    assertEquals();
   }
   
   @Test
   public void R_component_can_hold_multiple_parameters() throws URNSyntaxError {
-    URN_8141 urn = getURNParser(0
+    URN_8141 urn = getURNParser()
       .parser("urn:example:weather=?=op-map&lat=39.56&lon=104.85&datetime=1969-07-21T02:56:15Z");
     
     RQF_RFC8141 rqf = urn.getRQFCOmponets();
@@ -78,12 +76,17 @@ public class RFC814ParserTest extends URNParserTest {
     assertNotNull(queryParameters);
     
     for (Map.Entry<String, String> me : new HashMap<String, String>() ({
-      put();
-      put();
-      put();
-      put();
-    }).entrySet(()) {
-    })
+      put("op", "map");
+      put("lat", "39.56");
+      put("lon", "-104.85");
+      put("datetime", "1969-07-21T02:56:15Z");
+    }}.entrySet() {
+      assertTrue(String.format("q-component should have entry for `%s` with value `%s`",
+        me.getKey(),
+        me.getValue()),
+        queryParameters.containKey(me.getKey())
+          && queryParameters.get(me.getKey()).equals(me.getValue()));
+    }
   }
   
   @Test
@@ -119,22 +122,22 @@ public class RFC814ParserTest extends URNParserTest {
     RQF_8141 rqf = getRQFComponents();
     
     Map<String, String> resolutionParameters = rqf.resolutionParameters();
-    assertTrue();
-    assertEquals();
+    assertTrue(queryParameters.containsKey("bar"));
+    assertEquals("", queryParameters.get("bar"));
   }
   
   @Test
   public void Parsers_individual_resolution_parameters() throws URNSyntaxError {
-    String str = "";
+    String str = "urn:foo:bar?+a=b&c=d";
     URN_8141 urn = getURNParser().parse(str);
     
     RQF_RFC8141 rqf = urn.getRQFComponents();
     
     Map<String, String> queryParameters = rqf.queryParameters();
-    assertTrue();
-    assertTrue();
-    assertTrue();
-    assertTrue();
+    assertTrue(resolutionParameters.containsKey("a"));
+    assertTrue(resolutionParameters.containsValue("b"));
+    assertTrue(resolutionParameters.containsKey("c"));
+    assertTrue(resolutionParameters.containsValue("d"));
   }
 
   @Test
@@ -145,15 +148,15 @@ public class RFC814ParserTest extends URNParserTest {
     RQF_RFC8141 rqf = urn.getRQFComponents();
     
     Map<String, String> queryParameters = rqf.queryParameters();
-    assertTrue();
-    assertTrue();
-    assertTrue();
-    assertTrue();
+    assertTrue(queyrParameters.containsKey("q"));
+    assertTrue(queryParameters.containsKey("v"));
+    assertTrue(queryParameters.containsKey("u"));
+    assertTrue(queryParameters.containsVale("w"));
   }
 
   @Test void Parses_fragment_part() throws URNSyntaxError {
-    String str = "";
-    URN_8141 urn = getURNParser().parse();
+    String str = "urn:foo:bar#bar";
+    URN_8141 urn = getURNParser().parse(str);
     RQF_RFC8141 rqf = urn.getRQFComponents();
     assertEquals("bar", rqf.fragment());
   }
@@ -165,12 +168,12 @@ public class RFC814ParserTest extends URNParserTest {
     RQF_RFC8141 rqf = urn.getRQFComponents();
     
     Map<> resolutionParameters = rqf.resolutionParameters();
-    assertTrue("". "", resolutionParameters.containsKey("CCResolve::cc"));
-    assertEquals("", "", resolutionParameters.get("CCResolve::cc"));
+    assertTrue("r-component should contain key", resolutionParameters.containsKey("CCResolve::cc"));
+    assertEquals("r-component value not as expected", "uk", resolutionParameters.get("CCResolve::cc"));
     
     Map<> = rqf.queryParameters();
-    assertTrue("", queryParameters.containsKey("op);
-    assertTrue("q-component value not as expected", "map", queryParameters.get("op));
+    assertTrue("q-component should contain key", queryParameters.containsKey("op"));
+    assertTrue("q-component value not as expected", "map", queryParameters.get("op"));
     
     assertEqual("Missing fragment `somepart`", "somepart", rqf.fragment());
   }
